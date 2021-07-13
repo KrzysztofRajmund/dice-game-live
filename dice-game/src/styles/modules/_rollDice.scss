@@ -10,16 +10,16 @@
    width:  20rem;
    display: flex;
    justify-content: center;
-  align-items: center;
+   align-items: center;
   img{
     height: 50%;
     width: 50%;
   }
   }
   h1{
-    margin-bottom: 5rem;
     text-transform: uppercase;
     letter-spacing: 0.2rem;
+    font-size: 3rem;
   }
   .nextDiceButtons{
     display: flex;
