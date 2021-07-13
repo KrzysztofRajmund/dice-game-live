@@ -7,8 +7,11 @@ import { getDice } from '../actions/fetchActions';
 import { Dice } from '../actions/types';
 //components
 import ButtonContained from './utils/ButtonContained';
+import ButtonOutlined from './utils/ButtonOutlined';
 //material-ui
 import AutorenewIcon from '@material-ui/icons/Autorenew';
+import VerticalAlignTopIcon from '@material-ui/icons/VerticalAlignTop';
+import VerticalAlignBottomIcon from '@material-ui/icons/VerticalAlignBottom';
 
 const RollDice: React.FC = () => {
 
@@ -26,8 +29,12 @@ const RollDice: React.FC = () => {
         <section className='rollDice'>
             <h1>Dice Game</h1>
             <h2>Round 1/15</h2>
-            <div className="diceWrapper">
+            <div className='diceWrapper'>
                 {productsState.dice ? <img src={`http://roll.diceapi.com/images/poorly-drawn/d6/${productsState.dice.value}.png`} alt="" /> : <h1>Loading...</h1>}
+            </div>
+            <div className='nextDiceButtons'>
+                <ButtonOutlined buttonColor='secondary' icon={<VerticalAlignTopIcon />} />
+                <ButtonOutlined buttonColor='secondary' icon={<VerticalAlignBottomIcon />} />
             </div>
             <ButtonContained buttonColor='primary' title='Roll' icon={<AutorenewIcon />} />
         </section>
