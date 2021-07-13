@@ -8,7 +8,9 @@ import RollDice from './components/RollDice'
 const App: React.FC = () => {
   return (
     <Provider store={store}>
-      <RollDice />
+      <div className="wrapper">
+        <RollDice />
+      </div>
     </Provider>
   );
 }

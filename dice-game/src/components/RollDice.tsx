@@ -4,7 +4,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootStore } from '../store';
 import { getDice } from '../actions/fetchActions';
 //types
-import { Dice } from '../actions/types'
+import { Dice } from '../actions/types';
+//components
+import ButtonContained from './utils/ButtonContained';
+//material-ui
+import AutorenewIcon from '@material-ui/icons/Autorenew';
 
 const RollDice: React.FC = () => {
 
@@ -19,11 +23,14 @@ const RollDice: React.FC = () => {
     }, [dispatch])
     console.log(productsState)
     return (
-        <div className='rollDice'>
+        <section className='rollDice'>
             <h1>Dice Game</h1>
-            {productsState.dice ? <img src={`http://roll.diceapi.com/images/poorly-drawn/d6/${productsState.dice.value}.png`} alt="" /> : <h1>Loading...</h1>}
-            <button>Roll Dice</button>
-        </div>
+            <h2>Round 1/15</h2>
+            <div className="diceWrapper">
+                {productsState.dice ? <img src={`http://roll.diceapi.com/images/poorly-drawn/d6/${productsState.dice.value}.png`} alt="" /> : <h1>Loading...</h1>}
+            </div>
+            <ButtonContained buttonColor='primary' title='Roll' icon={<AutorenewIcon />} />
+        </section>
     )
 }
 
