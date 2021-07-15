@@ -14,6 +14,8 @@
   img{
     height: 50%;
     width: 50%;
+    animation: rotateDice 0.5s alternate ease-in-out, shakeDice 0.3s alternate linear, opacityDice 0.3s alternate ease-in-out ;
+    animation-fill-mode: forwards;
   }
   }
   h1{
@@ -29,4 +31,49 @@
       padding-bottom: 1rem;
     }
   }
+}
+
+@keyframes rotateDice {
+  0%{
+    transform: rotate(0deg);
+  }
+  100%{
+    transform: rotate(360deg);
+  }
+  
+}
+
+@keyframes shakeDice {
+  0%{
+    transform: ttranslate(0,0);
+  }
+
+   25%{
+   transform: translate(10px,20px);
+  }
+
+  50%{
+   transform: translate(120px,20px);
+  }
+
+  75%{
+   transform: translate(-100px,-20px);
+  }
+  100%{
+   transform: ttranslate(0,0);
+  }
+  
+}
+
+@keyframes opacityDice {
+  0%{
+    opacity: 0;
+  }
+   15%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
+  
 }

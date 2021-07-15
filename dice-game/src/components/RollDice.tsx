@@ -102,8 +102,6 @@ const RollDice: React.FC = () => {
         }
     }, [togglePlayer]);
 
-    console.log(playerOne.bonuspoints, 'bonuspoinnts 1');
-    console.log(playerTwo.bonuspoints, 'bonuspoinnts 2');
     return (
         <>
             <Player id={playerOne.id} bonuspoints={playerOne.bonuspoints} points={playerOne.points} />
