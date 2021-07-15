@@ -24,5 +24,9 @@
   .nextDiceButtons{
     display: flex;
     align-items: center;
+    .active{
+      border-bottom: 2px solid green;
+      padding-bottom: 1rem;
+    }
   }
 }

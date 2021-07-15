@@ -1,14 +1,26 @@
 import React from 'react';
 
-const Player: React.FC = () => {
+interface Props {
+    id: any,
+    bonuspoints: any,
+    points: any
+}
+
+const Player: React.FC<Props> = ({ id, bonuspoints, points }) => {
+
+    const bonus = bonuspoints.reduce(((total: number, num: number) => (total + num)), 0);
+    const totalScore = points.reduce(((total: number, num: number) => total + num), 0) + bonus;
     return (
         <section className='playerWrapper'>
             <article>
-                <h1>Player 1</h1>
-                <h3>Bonus points:12</h3>
+                <h1>Player {id}</h1>
+                <h3>Bonus points: {bonus}</h3>
+                {points.map((x: any, index: React.Key | null | undefined) => {
+                    return (<div key={index}>{x}</div>)
+                })}
             </article>
             <article>
-                <h2>Total score: 99</h2>
+                <h2>Total score: {totalScore}</h2>
             </article>
         </section>
     )
