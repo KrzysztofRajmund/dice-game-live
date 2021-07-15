@@ -7,6 +7,8 @@ import { getDice } from '../actions/fetchActions';
 import ButtonContained from './utils/ButtonContained';
 import ButtonOutlined from './utils/ButtonOutlined';
 import Player from './Player';
+//assets
+import Dice from '../assets/dice.png'
 //material-ui
 import AutorenewIcon from '@material-ui/icons/Autorenew';
 import VerticalAlignTopIcon from '@material-ui/icons/VerticalAlignTop';
@@ -23,19 +25,19 @@ const RollDice: React.FC = () => {
     //redux
     const dispatch = useDispatch();
     const productsState = useSelector((state: RootStore) => state.dice);
-    const [item, setItem] = useState([productsState.dice && productsState.dice.value]);
+    const [item, setItem] = useState<any>([0]);
     const [loadGame, setLoadGame] = useState(false);
     const [togglePlayer, setTogglePlayer] = useState(true);
     const [activeClass, setActiveClass] = useState(true);
-    const [playerOne, setPlayerOne] = useState<Player>({
+    const [playerOne, setPlayerOne] = useState<any>({
         id: 1,
-        bonuspoints: [],
+        bonuspoints: [0],
         points: []
     });
 
-    const [playerTwo, setPlayerTwo] = useState<Player>({
+    const [playerTwo, setPlayerTwo] = useState<any>({
         id: 2,
-        bonuspoints: [],
+        bonuspoints: [0],
         points: []
     });
 
@@ -47,22 +49,61 @@ const RollDice: React.FC = () => {
         dispatch(getDice());
     };
 
+    const bonusFnUp = () => {
+        if (item.length === 1) {
+            return 0;
+        };
+
+        if (item.length > 1 && productsState.dice) {
+            if (item[item.length - 2] > item[item.length - 1]) {
+                return 0.1;
+            } if (item[item.length - 2] <= item[item.length - 1]) {
+                return 0;
+            }
+        }
+    };
+
+
+    const bonusFnDown = () => {
+        if (item.length === 1) {
+            return 0;
+        };
+
+        if (item.length > 1 && productsState.dice) {
+            if (item[item.length - 2] < item[item.length - 1]) {
+                return 0.1;
+            } if (item[item.length - 2] >= item[item.length - 1]) {
+                return 0;
+            }
+        }
+    };
+
+
     useEffect(() => {
         if (productsState.dice && loadGame) {
             setItem(((prevState: any) => [...prevState, productsState.dice && productsState.dice.value]));
-            console.log(item, 'effect')
             if (togglePlayer) {
                 setTogglePlayer(t => !t);
-                setPlayerOne((prevState: { points: any; bonuspoints: any; }) => ({ ...prevState, bonuspoints: [1, 1], points: [...prevState.points, productsState.dice && productsState.dice.value] }))
+                setPlayerOne((prevState: { points: any; bonuspoints: any; }) => ({ ...prevState, points: [...prevState.points, productsState.dice && productsState.dice.value] }))
             } else {
                 setTogglePlayer(t => !t);
-                setPlayerTwo((prevState: { points: any; bonuspoints: any; }) => ({ ...prevState, bonuspoints: [1, 1], points: [...prevState.points, productsState.dice && productsState.dice.value] }))
+                setPlayerTwo((prevState: { points: any; bonuspoints: any; }) => ({ ...prevState, points: [...prevState.points, productsState.dice && productsState.dice.value] }))
 
             }
         }
     }, [productsState.dice, loadGame]);
 
-    console.log(playerOne.points, playerTwo.points)
+    useEffect(() => {
+        if (!togglePlayer) {
+            setPlayerOne((prevState: { bonuspoints: any; }) => ({ ...prevState, bonuspoints: [...prevState.bonuspoints, activeClass ? bonusFnUp() : bonusFnDown()] }))
+        } else {
+            setPlayerTwo((prevState: { bonuspoints: any; }) => ({ ...prevState, bonuspoints: [...prevState.bonuspoints, activeClass ? bonusFnUp() : bonusFnDown()] }))
+
+        }
+    }, [togglePlayer]);
+
+    console.log(playerOne.bonuspoints, 'bonuspoinnts 1');
+    console.log(playerTwo.bonuspoints, 'bonuspoinnts 2');
     return (
         <>
             <Player id={playerOne.id} bonuspoints={playerOne.bonuspoints} points={playerOne.points} />
@@ -70,7 +111,7 @@ const RollDice: React.FC = () => {
                 <h1>Dice Game</h1>
                 <h2>{`Round ${playerTwo.points.length === 15 ? 15 : playerTwo.points.length + 1}/15`}</h2>
                 <div className='diceWrapper'>
-                    {!loadGame ? (<img src={`http://roll.diceapi.com/images/poorly-drawn/d6/5.png`} alt='dice-img' />) :
+                    {!loadGame ? (<img src={Dice} alt='dice-img' />) :
                         (productsState.dice ? <img src={`http://roll.diceapi.com/images/poorly-drawn/d6/${productsState.dice.value}.png`} alt={`dice-img-${productsState.dice.value}`} /> : <h1>Loading...</h1>)}
                 </div>
                 <div className='nextDiceButtons'>
