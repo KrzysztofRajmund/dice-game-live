@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             '& > *': {
-                margin: theme.spacing(5),
+                margin: theme.spacing(1),
                 width: '15rem',
                 textAlign: 'center',
                 padding: '1rem'

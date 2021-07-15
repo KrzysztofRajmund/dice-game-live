@@ -6,6 +6,7 @@ import { getDice } from '../actions/fetchActions';
 //components
 import ButtonContained from './utils/ButtonContained';
 import ButtonOutlined from './utils/ButtonOutlined';
+import Message from './utils/Message';
 import Player from './Player';
 //assets
 import Dice from '../assets/dice.png'
@@ -102,15 +103,36 @@ const RollDice: React.FC = () => {
         }
     }, [togglePlayer]);
 
+
+    const playersLocalStorage = () => {
+        localStorage.setItem('playerOne', JSON.stringify(playerOne));
+        localStorage.setItem('playerTwo', JSON.stringify(playerTwo));
+    }
+
+    window.addEventListener('beforeunload', playersLocalStorage);
+
+    useEffect(() => {
+        const storagePlayerOne = localStorage.getItem('playerOne');
+        const storagePlayerTwo = localStorage.getItem('playerTwo');
+        if (storagePlayerOne) {
+            setPlayerOne(JSON.parse(storagePlayerOne));
+        }
+
+        if (storagePlayerTwo) {
+            setPlayerTwo(JSON.parse(storagePlayerTwo));
+        }
+    }, [])
+
     return (
         <>
+            <Message message='Do you want to resume game?' />
             <Player id={playerOne.id} bonuspoints={playerOne.bonuspoints} points={playerOne.points} />
             <section className='rollDice'>
                 <h1>Dice Game</h1>
                 <h2>{`Round ${playerTwo.points.length === 15 ? 15 : playerTwo.points.length + 1}/15`}</h2>
                 <div className='diceWrapper'>
-                    {!loadGame ? (<img src={Dice} alt='dice-img' />) :
-                        (productsState.dice ? <img src={`http://roll.diceapi.com/images/poorly-drawn/d6/${productsState.dice.value}.png`} alt={`dice-img-${productsState.dice.value}`} /> : <h1>Loading...</h1>)}
+                    {!loadGame && !localStorage.getItem('playerOne') ? (<img src={Dice} alt='dice-img' />) :
+                        (productsState.dice ? <img src={`http://roll.diceapi.com/images/poorly-drawn/d6/${productsState.dice.value}.png`} alt={`dice-img-${productsState.dice.value}`} /> : '')}
                 </div>
                 <div className='nextDiceButtons'>
                     <div className={activeClass ? 'active' : ''} onClick={() => setActiveClass(!activeClass)}>

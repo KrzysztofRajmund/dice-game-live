@@ -10,7 +10,7 @@ const Player: React.FC<Props> = ({ id, bonuspoints, points }) => {
 
     const bonus = bonuspoints.reduce(((total: number, num: number) => (total + num)), 0);
     const totalScore = points.reduce(((total: number, num: number) => total + num), 0) + bonus;
-    console.log(typeof bonus, typeof totalScore)
+
     return (
         <section className='playerWrapper'>
             <article>

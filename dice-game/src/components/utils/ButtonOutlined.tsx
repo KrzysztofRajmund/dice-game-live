@@ -9,6 +9,9 @@ const useStyles = makeStyles((theme: Theme) =>
         root: {
             '& > *': {
                 margin: theme.spacing(1),
+                width: '15rem',
+                textAlign: 'center',
+                padding: '1rem'
             },
             '& .MuiButton-endIcon': {
                 margin: '0',
@@ -18,16 +21,17 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props {
-    icon: React.ReactElement,
-    buttonColor: any
+    icon?: React.ReactElement,
+    buttonColor: any,
+    title?: string
 }
 
-const ButtonContained: React.FC<Props> = ({ icon, buttonColor }) => {
+const ButtonContained: React.FC<Props> = ({ icon, buttonColor, title }) => {
     const classes = useStyles();
     return (
         <section>
             <div className={classes.root}>
-                <Button variant='outlined' color={buttonColor} endIcon={icon} />
+                <Button variant='outlined' color={buttonColor} endIcon={icon}>{title}</Button>
             </div>
         </section>
     );
