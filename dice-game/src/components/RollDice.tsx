@@ -50,7 +50,7 @@ const RollDice: React.FC = () => {
     const dispatch = useDispatch();
     const productsState = useSelector((state: RootStore) => state.dice);
     //states
-    const [item, setItem] = useState<any>([0]);
+    const [item, setItem] = useState<number[]>([0]);
     const [loadGame, setLoadGame] = useState(false);
     const [togglePlayer, setTogglePlayer] = useState(true);
     const [activeClass, setActiveClass] = useState(true);
@@ -67,33 +67,20 @@ const RollDice: React.FC = () => {
     });
 
     // bonus points functions
-    const bonusFnUp = () => {
-        if (item.length === 1) {
+    const bonusFn = (x: number, y: number) => {
+        console.log(item)
+        if (item.length === 2) {
             return 0;
         };
 
-        if (item.length > 1 && productsState.dice) {
-            if (item[item.length - 2] < item[item.length - 1]) {
+        if (item.length > 2 && productsState.dice) {
+            if (x < y) {
                 return 0.1;
-            } if (item[item.length - 2] >= item[item.length - 1]) {
+            } if (x >= y) {
                 return 0;
             };
         };
     };
-    const bonusFnDown = () => {
-        if (item.length === 1) {
-            return 0;
-        };
-
-        if (item.length > 1 && productsState.dice) {
-            if (item[item.length - 2] > item[item.length - 1]) {
-                return 0.1;
-            } if (item[item.length - 2] <= item[item.length - 1]) {
-                return 0;
-            };
-        };
-    };
-
 
     //ROLL DICE FUNC
     const rollHandler = () => {
@@ -104,6 +91,9 @@ const RollDice: React.FC = () => {
         dispatch(getDice());
     };
     //redux state watcher for roll dice func
+
+
+
     useEffect(() => {
         if (productsState.dice && loadGame) {
             setItem(((prevState: any) => [...prevState, productsState.dice && productsState.dice.value]));
@@ -120,10 +110,13 @@ const RollDice: React.FC = () => {
 
     // togglePlayer state watcher for roll dice func
     useEffect(() => {
+
+        let presentDice = item[item.length - 2];
+        let nextDice = item[item.length - 1]
         if (!togglePlayer) {
-            setPlayerOne((prevState: { bonuspoints: any; }) => ({ ...prevState, bonuspoints: [...prevState.bonuspoints, activeClass ? bonusFnUp() : bonusFnDown()] }))
+            setPlayerOne((prevState: { bonuspoints: any; }) => ({ ...prevState, bonuspoints: [...prevState.bonuspoints, activeClass ? bonusFn(presentDice, nextDice) : bonusFn(nextDice, presentDice)] }))
         } else {
-            setPlayerTwo((prevState: { bonuspoints: any; }) => ({ ...prevState, bonuspoints: [...prevState.bonuspoints, activeClass ? bonusFnUp() : bonusFnDown()] }))
+            setPlayerTwo((prevState: { bonuspoints: any; }) => ({ ...prevState, bonuspoints: [...prevState.bonuspoints, activeClass ? bonusFn(presentDice, nextDice) : bonusFn(nextDice, presentDice)] }))
 
         }
     }, [togglePlayer]);
