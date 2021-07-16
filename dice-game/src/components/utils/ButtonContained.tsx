@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props {
-    title: string,
+    title: any,
     icon?: React.ReactElement,
     buttonColor?: any
 }

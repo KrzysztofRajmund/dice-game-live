@@ -1,0 +1,43 @@
+.winnerMessage{
+    opacity: 0;
+    animation: anime 4s alternate ease-in-out;
+    z-index: 95;
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+            z-index: 100;
+            top: 0;
+            left: 0;
+            background-color: pink;
+    div{
+       animation: rotateMsg 1s alternate ease-in-out; 
+    }
+};
+
+
+@keyframes anime {
+    0%{
+        opacity:0
+    }
+    20%{
+        opacity:0.8
+    }
+     50%{
+        opacity:1
+    }
+     80%{
+        opacity:1
+    }
+    100%{
+    opacity:0
+    }
+};
+
+@keyframes rotateMsg {
+  0%{
+    transform: rotate(0deg);
+  }
+  100%{
+    transform: rotate(360deg);
+  }
+};

@@ -9,13 +9,14 @@ const useStyles = makeStyles((theme: Theme) =>
         root: {
             '& > *': {
                 margin: theme.spacing(1),
-                width: '15rem',
                 textAlign: 'center',
-                padding: '1rem'
+                padding: '1rem',
+                borderColor: 'white'
             },
             '& .MuiButton-endIcon': {
                 margin: '0',
-            }
+                color: '#f5f5f5',
+            },
         },
     }),
 );

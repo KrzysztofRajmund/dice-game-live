@@ -23,14 +23,22 @@
     text-transform: uppercase;
     letter-spacing: 0.2rem;
     font-size: 3rem;
+    color: $secondaryColor;
   }
+      h2{
+    letter-spacing: 0.2rem;
+    line-height: 2.5rem;
+    color: $secondaryColor;
+    font-size: 1.9rem;
+    }
+    h3{
+      text-transform: uppercase;
+          color: $secondaryColor;
+    }
   .nextDiceButtons{
     display: flex;
     align-items: center;
-    .active{
-      border-bottom: 2px solid green;
-      padding-bottom: 1rem;
-    }
+    margin-bottom: 1rem;
   }
 }
 
@@ -42,7 +50,6 @@
   100%{
     transform: rotate(360deg);
   }
-  
 }
 
 @keyframes shakeDice {
@@ -64,7 +71,6 @@
   100%{
    transform: ttranslate(0,0);
   }
-  
 }
 
 @keyframes opacityDice {
@@ -77,5 +83,4 @@
   100%{
     opacity: 1;
   }
-  
 }

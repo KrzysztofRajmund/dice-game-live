@@ -2,7 +2,6 @@ import React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Alert } from '@material-ui/lab';
 import ButtonContained from './ButtonContained';
-import ButtonOutlined from './ButtonOutlined';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -16,14 +15,15 @@ const useStyles = makeStyles((theme: Theme) =>
             width: '100vw',
             height: '100vh',
             position: 'absolute',
-            zIndex: 100,
+            zIndex: 80,
             top: 0,
             left: 0,
-            backgroundColor: '#f5f5f5ec',
+            backgroundColor: '#f5f5f5cb',
             '& .MuiAlert-root': {
                 margin: '2rem auto',
                 fontSize: '2rem',
-                backgroundColor: 'transparent',
+                backgroundColor: '#2b2b2b',
+                color: '#f5f5f5'
             },
         },
         buttons: {
@@ -35,18 +35,27 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props {
-    message: string
+    message: string,
+    play?: (x: string) => void
 }
 
-const Message: React.FC<Props> = ({ message }) => {
+const Message: React.FC<Props> = ({ message, play }) => {
     const classes = useStyles();
+
     return (
         <div className={classes.root}>
             <Alert severity="info">{message}</Alert>
-            <div className={classes.buttons}>
-                <ButtonContained buttonColor='primary' title='YES' />
-                <ButtonOutlined buttonColor='secondary' title='NO' />
-            </div>
+            {
+                play && <section className={classes.buttons}>
+                    <div onClick={() => play('yes')}>
+                        <ButtonContained buttonColor='primary' title='YES' />
+                    </div>
+                    <div onClick={() => play('no')}>
+                        <ButtonContained buttonColor='secondary' title='NO' />
+                    </div>
+                </section>
+            }
+
         </div>
     );
 };
