@@ -70,7 +70,8 @@ const RollDice: React.FC = () => {
         dispatch(getDice());
     }, [dispatch]);
 
-    const diceHandler = () => {
+    //first Dice Handler
+    const firstDiceHandler = () => {
         setLoadGame(s => (s = true));
         setItem(((prevState: any) => [...prevState, productsState.dice && productsState.dice.value]));
         if (togglePlayer) {
@@ -89,7 +90,7 @@ const RollDice: React.FC = () => {
             return;
         };
         dispatch(getDice());
-        diceHandler();
+        firstDiceHandler();
     };
 
     // togglePlayer state watcher for roll dice func
