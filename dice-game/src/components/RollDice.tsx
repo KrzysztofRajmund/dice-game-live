@@ -70,21 +70,6 @@ const RollDice: React.FC = () => {
         dispatch(getDice());
     }, [dispatch]);
 
-    // bonus points functions
-    const bonusFn = (x: number, y: number) => {
-        if ((item.length <= 2)) {
-            return 0;
-        };
-
-        if (item.length > 2) {
-            if (x < y) {
-                return 0.1;
-            } if (x >= y) {
-                return 0;
-            };
-        };
-    };
-
     const diceHandler = () => {
         setLoadGame(s => (s = true));
         setItem(((prevState: any) => [...prevState, productsState.dice && productsState.dice.value]));
@@ -95,8 +80,8 @@ const RollDice: React.FC = () => {
             setTogglePlayer(t => !t);
             setPlayerTwo((prevState: { points: any; bonuspoints: any; }) => ({ ...prevState, points: [...prevState.points, productsState.dice && productsState.dice.value] }))
 
-        }
-    }
+        };
+    };
 
     //ROLL DICE FUNC
     const rollHandler = () => {
@@ -110,15 +95,28 @@ const RollDice: React.FC = () => {
     // togglePlayer state watcher for roll dice func
     useEffect(() => {
 
+        //present and next dice value
         let presentDice = item[item.length - 2] || 0;
-        let nextDice = item[item.length - 1]
+        let nextDice = item[item.length - 1];
+        // bonus points functions
+        const bonusFn = (x: number, y: number) => {
+            if ((item.length <= 2)) {
+                return 0;
+            };
+            if (item.length > 2) {
+                if (x < y) {
+                    return 0.1;
+                } if (x >= y) {
+                    return 0;
+                };
+            };
+        };
         if (!togglePlayer) {
-            setPlayerOne((prevState: { bonuspoints: any; }) => ({ ...prevState, bonuspoints: [...prevState.bonuspoints, activeClass ? bonusFn(presentDice, nextDice) : bonusFn(nextDice, presentDice)] }))
+            setPlayerOne((prevState: { bonuspoints: any; }) => ({ ...prevState, bonuspoints: [...prevState.bonuspoints, activeClass ? bonusFn(presentDice, nextDice) : bonusFn(nextDice, presentDice)] }));
         } else {
-            setPlayerTwo((prevState: { bonuspoints: any; }) => ({ ...prevState, bonuspoints: [...prevState.bonuspoints, activeClass ? bonusFn(presentDice, nextDice) : bonusFn(nextDice, presentDice)] }))
-
-        }
-    }, [togglePlayer]);
+            setPlayerTwo((prevState: { bonuspoints: any; }) => ({ ...prevState, bonuspoints: [...prevState.bonuspoints, activeClass ? bonusFn(presentDice, nextDice) : bonusFn(nextDice, presentDice)] }));
+        };
+    }, [activeClass, item, togglePlayer]);
 
 
     //state cleaning
