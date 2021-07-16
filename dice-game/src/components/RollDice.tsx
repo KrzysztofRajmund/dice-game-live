@@ -50,7 +50,7 @@ const RollDice: React.FC = () => {
     const dispatch = useDispatch();
     const productsState = useSelector((state: RootStore) => state.dice);
     //states
-    const [item, setItem] = useState<number[]>([0]);
+    const [item, setItem] = useState<number[]>([]);
     const [loadGame, setLoadGame] = useState(false);
     const [togglePlayer, setTogglePlayer] = useState(true);
     const [activeClass, setActiveClass] = useState(true);
@@ -66,9 +66,13 @@ const RollDice: React.FC = () => {
         points: []
     });
 
+    useEffect(() => {
+        dispatch(getDice());
+    }, [dispatch]);
+
     // bonus points functions
     const bonusFn = (x: number, y: number) => {
-        console.log(item)
+        console.log(item, 'item bonus')
         if (item.length === 2) {
             return 0;
         };
@@ -82,31 +86,27 @@ const RollDice: React.FC = () => {
         };
     };
 
+    const firstDiceHandler = () => {
+        setLoadGame(s => (s = true));
+        setItem(((prevState: any) => [...prevState, productsState.dice && productsState.dice.value]));
+        if (togglePlayer) {
+            setTogglePlayer(t => !t);
+            setPlayerOne((prevState: { points: any; bonuspoints: any; }) => ({ ...prevState, points: [...prevState.points, productsState.dice && productsState.dice.value] }))
+        } else {
+            setTogglePlayer(t => !t);
+            setPlayerTwo((prevState: { points: any; bonuspoints: any; }) => ({ ...prevState, points: [...prevState.points, productsState.dice && productsState.dice.value] }))
+
+        }
+    }
+
     //ROLL DICE FUNC
     const rollHandler = () => {
         if (playerOne.points.length === 15 && playerTwo.points.length === 15) {
-            return
-        }
-        setLoadGame(true);
+            return;
+        };
         dispatch(getDice());
+        firstDiceHandler();
     };
-    //redux state watcher for roll dice func
-
-
-
-    useEffect(() => {
-        if (productsState.dice && loadGame) {
-            setItem(((prevState: any) => [...prevState, productsState.dice && productsState.dice.value]));
-            if (togglePlayer) {
-                setTogglePlayer(t => !t);
-                setPlayerOne((prevState: { points: any; bonuspoints: any; }) => ({ ...prevState, points: [...prevState.points, productsState.dice && productsState.dice.value] }))
-            } else {
-                setTogglePlayer(t => !t);
-                setPlayerTwo((prevState: { points: any; bonuspoints: any; }) => ({ ...prevState, points: [...prevState.points, productsState.dice && productsState.dice.value] }))
-
-            }
-        }
-    }, [productsState.dice]);
 
     // togglePlayer state watcher for roll dice func
     useEffect(() => {
@@ -217,7 +217,7 @@ const RollDice: React.FC = () => {
                 <h1>Dice Game</h1>
                 <h2>{`Round ${playerTwo.points.length === 15 ? 15 : playerTwo.points.length + 1}/15`}</h2>
                 <div className='diceWrapper'>
-                    {!loadGame ? (<img src={Dice} alt='dice-img' />) : (productsState.dice && productsState.dice.value === null ? (<img src={`http://roll.diceapi.com/images/poorly-drawn/d6/${item[item.length - 2]}.png`} alt={`dice-img`} />) : (productsState.dice && productsState.dice.value !== null ? <img src={`http://roll.diceapi.com/images/poorly-drawn/d6/${productsState.dice.value}.png`} alt={`dice-img-${productsState.dice.value}`} /> : ''))}
+                    {!loadGame ? (<img src={Dice} alt='dice-img' />) : (item && item.length !== 0 ? <img src={`http://roll.diceapi.com/images/poorly-drawn/d6/${item[item.length - 1]}.png`} alt={`dice-img-${item[item.length - 1]}`} /> : '')}
                 </div>
                 <h3>Bet next dice</h3>
                 <div className='nextDiceButtons'>
